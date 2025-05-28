@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizador Financeiro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f0fdf4;
+            color: #1b4332;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            height: 100vh;
+            width: 100vw;
+            padding: 40px;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: #ffffff;
+            padding: 60px;
+            border-radius: 16px;
+            box-shadow: 0 0 25px rgba(0, 100, 0, 0.1);
+            text-align: left;
+            position: relative;
+        }
+        h2 {
+            font-size: 3em;
+            color: #2d6a4f;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .form-group {
+            margin-bottom: 50px;
+        }
+        label {
+            font-size: 1.2em;
+        }
+        input, select {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            border: 2px solid #95d5b2;
+            border-radius: 10px;
+            background: #e9f5ec;
+            color: #081c15;
+            font-size: 1em;
+        }
+        .tooltip {
+            background-color: #d8f3dc;
+            color: #081c15;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 1em;
+        }
+        .info-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #2d6a4f;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        button {
+            background: #2d6a4f;
+            color: white;
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 1.3em;
+            width: 100%;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #1b4332;
+        }
+        .result {
+            margin-top: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            color: #2d6a4f;
+            border: 2px dashed #95d5b2;
+            border-radius: 12px;
+            padding: 30px;
+            background-color: #e9f5ec;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Organizador Financeiro</h2>
+
+        <button class="info-button" onclick="toggleTooltip('tipImportancia')">Ajuda</button>
+        <div class="tooltip" id="tipImportancia" style="display:none">
+            Educação financeira é o processo de adquirir conhecimento e habilidades para tomar decisões financeiras conscientes. Isso inclui saber controlar os gastos, economizar, investir e planejar o futuro. Com uma boa educação financeira, você pode evitar dívidas, alcançar objetivos de vida e ter mais segurança e tranquilidade.
+        </div>
+
+        <div class="form-group">
+            <label for="rendimento">Rendimento Mensal (R$):</label>
+            <input type="number" id="rendimento" placeholder="Digite seu rendimento">
+            <div class="tooltip">Informe quanto você ganha por mês, incluindo salários e outras fontes de renda.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="gastosFixos">Gastos Fixos Mensais (R$):</label>
+            <input type="number" id="gastosFixos" placeholder="Digite seus gastos fixos">
+            <div class="tooltip">Inclua aqui despesas mensais que não mudam, como aluguel, contas e assinaturas.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="gastosVariaveis">Gastos Variáveis Mensais (R$):</label>
+            <input type="number" id="gastosVariaveis" placeholder="Digite seus gastos variáveis">
+            <div class="tooltip">Inclua aqui despesas que variam, como alimentação, transporte e lazer eventual.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="opcao">Perfil de Investidor:</label>
+            <select id="opcao">
+                <option value="1">Conservador (Longo Prazo - guardar 50%)</option>
+                <option value="2">Moderado (Médio Prazo - guardar 25%)</option>
+                <option value="3">Agressivo (Curto Prazo - guardar 10%)</option>
+            </select>
+            <div class="tooltip">
+                Escolha seu perfil de investidor:<br>
+                - Conservador: foco em segurança e crescimento constante a longo prazo.<br>
+                - Moderado: busca equilíbrio entre segurança e retorno.<br>
+                - Agressivo: prioriza maiores ganhos em menor tempo, com mais risco.
+            </div>
+        </div>
+
+        <button onclick="calcularPlano()">Calcular</button>
+
+        <div class="result" id="resultado"></div>
+    </div>
+
+    <script>
+        function calcularPlano() {
+            let rendimento = parseFloat(document.getElementById('rendimento').value);
+            let gastosFixos = parseFloat(document.getElementById('gastosFixos').value);
+            let gastosVariaveis = parseFloat(document.getElementById('gastosVariaveis').value);
+            let opcao = document.getElementById('opcao').value;
+
+            if (isNaN(rendimento) || isNaN(gastosFixos) || isNaN(gastosVariaveis) || rendimento <= 0 || gastosFixos < 0 || gastosVariaveis < 0) {
+                document.getElementById('resultado').innerText = "Por favor, insira valores válidos.";
+                return;
+            }
+
+            let dinheiroSobrando = rendimento - gastosFixos - gastosVariaveis;
+            if (dinheiroSobrando < 0) {
+                document.getElementById('resultado').innerText = "Seus gastos são maiores que seu rendimento!";
+                return;
+            }
+
+            let investimento = 0;
+            let lazer = 0;
+            let percentualInvestimento = 0;
+
+            if (opcao == "1") {
+                percentualInvestimento = 0.5;
+            } else if (opcao == "2") {
+                percentualInvestimento = 0.25;
+            } else if (opcao == "3") {
+                percentualInvestimento = 0.1;
+            }
+
+            investimento = dinheiroSobrando * percentualInvestimento;
+            lazer = dinheiroSobrando - investimento;
+
+            const percFixos = ((gastosFixos / rendimento) * 100).toFixed(1);
+            const percVariaveis = ((gastosVariaveis / rendimento) * 100).toFixed(1);
+            const percInvestimento = ((investimento / rendimento) * 100).toFixed(1);
+            const percLazer = ((lazer / rendimento) * 100).toFixed(1);
+
+            let coerencia = "";
+            if ((opcao == "1" && percInvestimento >= 45) ||
+                (opcao == "2" && percInvestimento >= 20 && percInvestimento <= 30) ||
+                (opcao == "3" && percInvestimento <= 15)) {
+                coerencia = "Seus gastos estão coerentes com seu perfil.";
+            } else {
+                coerencia = "Seus gastos não estão totalmente coerentes com o perfil escolhido.";
+            }
+
+            document.getElementById('resultado').innerHTML = 
+                `Gastos Fixos: ${percFixos}% do rendimento<br>
+                 Gastos Variáveis: ${percVariaveis}% do rendimento<br>
+                 Investimento sugerido: R$ ${investimento.toFixed(2)} (${percInvestimento}%)<br>
+                 Lazer sugerido: R$ ${lazer.toFixed(2)} (${percLazer}%)<br><br>
+                 <strong>${coerencia}</strong>`;
+        }
+
+        function toggleTooltip(id) {
+            const tooltip = document.getElementById(id);
+            tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
