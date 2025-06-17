@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Organizador Financeiro Rosa Bonfiglioli</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Money+Money&family=Roboto:wght@400;700&display=swap');
+
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0fdf4;
+    color: #1b4332;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 60px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 0 25px rgba(0, 100, 0, 0.1);
+    box-sizing: border-box;
+  }
+  #tela-inicial {
+    background-color: #f6e05e;
+    color: #2a6e2a;
+    font-family: 'Money Money', cursive, 'Roboto', sans-serif;
+    text-align: center;
+    padding: 100px 40px;
+    border-radius: 16px;
+  }
+  #tela-inicial h1 {
+    font-size: 4.5em;
+    margin-bottom: 0.2em;
+    letter-spacing: 0.05em;
+  }
+  #tela-inicial p {
+    font-size: 1.6em;
+    margin-bottom: 60px;
+    font-weight: 500;
+  }
+  #tela-inicial p span {
+    font-weight: 700;
+    color: #1b4332;
+  }
+  #btn-comecar {
+    background-color: #2a6e2a;
+    color: white;
+    border: none;
+    padding: 20px 50px;
+    font-size: 1.6em;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #btn-comecar:hover {
+    background-color: #1b4332;
+  }
+  #tela-organizador {
+    display: none;
+  }
+  h2 {
+    font-size: 3em;
+    color: #2d6a4f;
+    text-align: center;
+    margin-bottom: 60px;
+    font-family: 'Roboto', sans-serif;
+  }
+  .form-group {
+    margin-bottom: 40px;
+  }
+  label {
+    font-size: 1.2em;
+    display: block;
+    margin-bottom: 8px;
+  }
+  input, select {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #95d5b2;
+    border-radius: 10px;
+    background: #e9f5ec;
+    color: #081c15;
+    font-size: 1em;
+  }
+  .tooltip {
+    background-color: #d8f3dc;
+    color: #081c15;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 1em;
+    line-height: 1.4em;
+  }
+  .info-button {
+    position: fixed;
+    top: 20px;
+    right: 10px;  /* movido bem mais para a esquerda */
+    background: #2d6a4f;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    z-index: 1000;
+    width: auto;
+    height: auto;
+    max-width: 200px;
+    white-space: nowrap;
+  }
+  button {
+    background: #2d6a4f;
+    color: white;
+    padding: 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.3em;
+    width: 100%;
+    margin-top: 20px;
+    transition: background 0.3s;
+  }
+  button:hover {
+    background: #1b4332;
+  }
+  .result {
+    margin-top: 50px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    color: #2d6a4f;
+    border: 2px dashed #95d5b2;
+    border-radius: 12px;
+    padding: 30px;
+    background-color: #e9f5ec;
+    position: relative;
+  }
+  #btn-dicas {
+    margin-top: 30px;
+    background-color: #4a7c4a;
+  }
+  #dicas-texto {
+    margin-top: 20px;
+    font-size: 1.1em;
+    background: #d8f3dc;
+    border-radius: 12px;
+    padding: 20px;
+    color: #081c15;
+    display: none;
+  }
+  #dicas-texto u {
+    cursor: pointer;
+    color: #1b4332;
+    font-weight: 700;
+    text-decoration-thickness: 2px;
+  }
+  #dicas-texto u:hover {
+    color: #145214;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- TELA INICIAL -->
+  <section id="tela-inicial">
+    <h1>Organizador Financeiro Rosa Bonfiglioli</h1>
+    <p><span>Não se esqueça, o melhor investimento é o conhecimento.</span><br>Invista em você para transformar sua vida financeira!</p>
+    <button id="btn-comecar">Começar investimentos</button>
+  </section>
+
+  <!-- TELA ORGANIZADOR (inicialmente escondida) -->
+  <section id="tela-organizador">
+    <button class="info-button" onclick="toggleTooltip('tipImportancia')">Ajuda</button>
+    <div class="tooltip" id="tipImportancia" style="display:none">
+      Educação financeira é o processo de aprender a lidar com seu dinheiro de forma consciente, para controlar gastos, economizar, investir e planejar seu futuro. Com ela, você evita dívidas, conquista seus objetivos e tem mais tranquilidade na vida.
+    </div>
+
+    <h2>Organizador Financeiro</h2>
+
+    <div class="form-group">
+      <label for="rendimento">Rendimento Mensal (R$):</label>
+      <input type="number" id="rendimento" placeholder="Digite seu rendimento" />
+      <div class="tooltip">Informe quanto você ganha por mês, incluindo salários e outras fontes de renda.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="gastosFixos">Gastos Fixos Mensais (R$):</label>
+      <input type="number" id="gastosFixos" placeholder="Digite seus gastos fixos" />
+      <div class="tooltip">Inclua despesas fixas como aluguel, contas, assinaturas.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="gastosVariaveis">Gastos Variáveis Mensais (R$):</label>
+      <input type="number" id="gastosVariaveis" placeholder="Digite seus gastos variáveis" />
+      <div class="tooltip">Inclua despesas variáveis como alimentação, transporte, lazer.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="opcao">Perfil de Investidor:</label>
+      <select id="opcao">
+        <option value="1">Conservador (Longo Prazo - guardar 50%)</option>
+        <option value="2">Moderado (Médio Prazo - guardar 25%)</option>
+        <option value="3">Agressivo (Curto Prazo - guardar 10%)</option>
+      </select>
+      <div class="tooltip">
+        Escolha seu perfil de investidor:<br />
+        - Conservador: foco em segurança e crescimento constante a longo prazo.<br />
+        - Moderado: equilíbrio entre segurança e retorno.<br />
+        - Agressivo: prioriza ganhos maiores em menor tempo, com mais risco.
+      </div>
+    </div>
+
+    <button onclick="calcularPlano()">Calcular</button>
+
+    <div class="result" id="resultado"></div>
+
+    <button id="btn-dicas" onclick="mostrarDicas()" style="display:none">Dicas</button>
+    <div id="dicas-texto"></div>
+
+  </section>
+
+</div>
+
+<script>
+  const telaInicial = document.getElementById('tela-inicial');
+  const telaOrganizador = document.getElementById('tela-organizador');
+  const resultadoDiv = document.getElementById('resultado');
+  const btnDicas = document.getElementById('btn-dicas');
+  const dicasTexto = document.getElementById('dicas-texto');
+
+  document.getElementById('btn-comecar').addEventListener('click', () => {
+    telaInicial.style.display = 'none';
+    telaOrganizador.style.display = 'block';
+  });
+
+  function toggleTooltip(id) {
+    const tooltip = document.getElementById(id);
+    tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
+  }
+
+  function calcularPlano() {
+    let rendimento = parseFloat(document.getElementById('rendimento').value);
+    let gastosFixos = parseFloat(document.getElementById('gastosFixos').value);
+    let gastosVariaveis = parseFloat(document.getElementById('gastosVariaveis').value);
+    let opcao = document.getElementById('opcao').value;
+
+    if (isNaN(rendimento) || isNaN(gastosFixos) || isNaN(gastosVariaveis) || rendimento <= 0 || gastosFixos < 0 || gastosVariaveis < 0) {
+      resultadoDiv.innerText = "Por favor, insira valores válidos.";
+      btnDicas.style.display = 'none';
+      dicasTexto.style.display = 'none';
+      return;
+    }
+
+    let dinheiroSobrando = rendimento - gastosFixos - gastosVariaveis;
+    if (dinheiroSobrando < 0) {
+      resultadoDiv.innerText = "Seus gastos são maiores que seu rendimento!";
+      btnDicas.style.display = 'none';
+      dicasTexto.style.display = 'none';
+      return;
+    }
+
+    let investimento = 0;
+    let lazer = 0;
+    let percentualInvestimento = 0;
+
+    if (opcao == "1") {
+      percentualInvestimento = 0.5;
+    } else if (opcao == "2") {
+      percentualInvestimento = 0.25;
+    } else if (opcao == "3") {
+      percentualInvestimento = 0.1;
+    }
+
+    investimento = dinheiroSobrando * percentualInvestimento;
+    lazer = dinheiroSobrando - investimento;
+
+    const percFixos = ((gastosFixos / rendimento) * 100).toFixed(1);
+    const percVariaveis = ((gastosVariaveis / rendimento) * 100).toFixed(1);
+    const percInvestimento = ((investimento / rendimento) * 100).toFixed(1);
+    const percLazer = ((lazer / rendimento) * 100).toFixed(1);
+
+    let coerencia = "";
+    let sugestaoPerfil = "";
+
+    if ((opcao == "1" && percInvestimento >= 45) ||
+        (opcao == "2" && percInvestimento >= 20 && percInvestimento <= 30) ||
+        (opcao == "3" && percInvestimento <= 15)) {
+      coerencia = "Seus gastos estão coerentes com seu perfil.";
+    } else {
+      coerencia = "Seus gastos não estão totalmente coerentes com o perfil escolhido. ";
+      if (percInvestimento > 45) {
+        sugestaoPerfil = "Talvez o perfil Conservador seja mais adequado para você.";
+      } else if (percInvestimento >= 20 && percInvestimento <= 30) {
+        sugestaoPerfil = "Talvez o perfil Moderado se encaixe melhor.";
+      } else if (percInvestimento < 15) {
+        sugestaoPerfil = "Talvez o perfil Agressivo seja o seu estilo.";
+      } else {
+        sugestaoPerfil = "Considere ajustar seus gastos para se adequar melhor ao perfil escolhido.";
+      }
+      coerencia += sugestaoPerfil + " Mas lembre-se, isso é apenas uma sugestão. Você pode ajustar seu perfil conforme sua realidade.";
+    }
+
+    resultadoDiv.innerHTML = `
+      Gastos Fixos: ${percFixos}% do rendimento<br>
+      Gastos Variáveis: ${percVariaveis}% do rendimento<br>
+      Investimento sugerido: R$ ${investimento.toFixed(2)} (${percInvestimento}%)<br>
+      Lazer sugerido: R$ ${lazer.toFixed(2)} (${percLazer}%)<br><br>
+      <strong>${coerencia}</strong>
+    `;
+
+    btnDicas.style.display = 'inline-block';
+    dicasTexto.style.display = 'none';
+  }
+
+  function mostrarDicas() {
+    let gastosFixos = parseFloat(document.getElementById('gastosFixos').value);
+    if (isNaN(gastosFixos) || gastosFixos <= 0) {
+      dicasTexto.innerText = "Por favor, insira gastos fixos válidos para calcular a reserva de emergência.";
+      dicasTexto.style.display = 'block';
+      return;
+    }
+    const reservaEmergencia = gastosFixos * 6;
+
+    dicasTexto.innerHTML = `
+      <p>Para uma vida financeira saudável, sugerimos:</p>
+      <ul>
+        <li>Reserva de emergência de 6 meses: R$ ${reservaEmergencia.toFixed(2)}</li>
+        <li>Evite dívidas desnecessárias e mantenha um orçamento mensal equilibrado.</li>
+        <li>Invista mensalmente conforme seu perfil para conquistar seus objetivos financeiros.</li>
+      </ul>
+      <p><u onclick="dicasTexto.style.display='none'">Fechar dicas</u></p>
+    `;
+    dicasTexto.style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
